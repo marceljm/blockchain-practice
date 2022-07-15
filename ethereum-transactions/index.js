@@ -5,7 +5,8 @@
 // -- Step 1: Set up the appropriate configuration 
 var Web3 = require("web3")
 var EthereumTransaction = require("ethereumjs-tx").Transaction
-var web3 = new Web3('HTTP://127.0.0.1:7545')
+var web3 = new Web3('HTTP://127.0.0.1:7545') // Ganache
+// Infura, Ganache alternative: https://docs.infura.io/infura/tutorials/ethereum/send-a-transaction
 
 // -- Step 2: Set the sending and receiving addresses for the transaction. 
 var sendingAddress = '0x580d849B41FBe65526a9e5f84C4c801320E30Bed'

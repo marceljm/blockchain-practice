@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Deploy a Remix Contract</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <!-- Documentation: https://github.com/ChainSafe/web3.js -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <h1>Ethereum Secret Messenger</h1>
+
+        <hr>
+
+        <label for="message">This site writes a secret message to the Ethereum blockchain!</label>
+        <input id="userInput" type="text">
+
+        <button id="setMessageButton">Set secret message</button>
+        <button class="enableEthereumButton">Enable Ethereum</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        // Live Server extension for VSCode is required
+        if (typeof window.ethereum === 'undefined')
+            console.log('MetaMask is NOT installed!');
+
+        // Ethereum button
+        // https://docs.metamask.io/guide/getting-started.html#basic-considerations
+        const ethereumButton = document.querySelector('.enableEthereumButton');
+        ethereumButton.addEventListener('click', () => {
+            //Will Start the metamask extension
+            ethereum.request({ method: 'eth_requestAccounts' });
+        });
+
+        // Connect to the web3 provider via Metamask (Infura is NOT required here)
+        const web3 = new Web3(window.ethereum);
+
+        var contractAbi = [
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "x",
+                        "type": "string"
+                    }
+                ],
+                "name": "setMessage",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "getMessage",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ]
+
+        var contractAddress = '0x6eCFb84d60eDAb59BC511924196a69cC24cC93d8';
+
+        // Set a default account
+        web3.eth.getAccounts().then(
+            function (result) {
+                //get first account
+                account = result[0];
+
+                // set as default account
+                web3.eth.Contract.defaultAccount = account;
+
+                // get contract
+                var RemixContract = new web3.eth.Contract(contractAbi, contractAddress);
+
+                // show last message sent
+                RemixContract.methods.getMessage().call().then(result => console.log(result)); // GET
+
+                // sent new message
+                // it requires confirmation via Metamask
+                // it can take a few seconds to validate the transaction
+                $("#setMessageButton").click(function () {
+                    message = $("#userInput").val();
+                    RemixContract.methods.setMessage(message).send({ from: account }); // SET
+                    console.log($("#userInput").val())
+                });
+            }
+        );
+    </script>
+</body>
+
+</html>
