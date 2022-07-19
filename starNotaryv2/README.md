@@ -29,3 +29,16 @@ compile
 migrate --reset
 test
 ```
+
+Edit `app/src/index.html` and `app/src/index.js`
+
+Run front-end:
+```
+export NODE_OPTIONS=--openssl-legacy-provider
+cd app
+npm run dev
+```
+
+Make sure Metamask is installed and using a local network.
+
+Open `http://localhost:8080/` in your browser.

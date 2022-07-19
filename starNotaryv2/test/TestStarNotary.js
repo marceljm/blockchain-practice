@@ -73,8 +73,12 @@ it('lets user2 buy a star and decreases its balance in ether', async () => {
     await instance.putStarUpForSale(starId, starPrice, { from: user1 });
     await instance.approve(user2, starId, { from: user1 });
     const balanceOfUser2BeforeTransaction = await web3.eth.getBalance(user2);
-    await instance.buyStar(starId, { from: user2, value: balance, gasPrice:0 });
+    // gasPrice only can be 0 when running on Ganache (7545)
+    // trying to run with a zero value on 9545 will return a timeout error, because the transaction won't run
+    await instance.buyStar(starId, { from: user2, value: balance, gasPrice:0 }); 
     const balanceAfterUser2BuysStar = await web3.eth.getBalance(user2);    
     let value = Number(balanceOfUser2BeforeTransaction) - Number(balanceAfterUser2BuysStar);
+    // if you are using Ganache (7545), this will pass
+    // otherwise it will fail due the gas value not included in the calculation
     assert.equal(value, starPrice);
 });
