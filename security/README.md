@@ -133,36 +133,3 @@ CoinFabrik smart contracts audit related content.
 ### [Security audits for distributed systems](https://www.openzeppelin.com/security-audits)
 
 OpenZeppelin verifies that your distributed systems work as intended by performing an audit. Our engineers fully review your system’s architecture and codebase, and then write a thorough report that includes actionable feedback for every issue found.
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
-### []()
-
